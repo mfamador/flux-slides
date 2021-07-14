@@ -27,11 +27,9 @@
 	</head>
 
 	<body>
-
 		<div class="reveal">
-
-			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+				
 				<section>
 					<a href="https://fluxcd.io/">
 						<img src="https://raw.githubusercontent.com/cncf/artwork/d76a3a4b90804c1a66aa6725d03f9c88f706703b/projects/flux/horizontal/white/flux-horizontal-white.svg" alt="flux v2" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
@@ -342,7 +340,7 @@
 						├── clusters
 						│   ├── production
 						│   │   ├── eastus
-						│   │   └── northeurope
+						│   │   └── norteurope
 						│   └── staging
 						│       ├── eastus
 						│       └── northeurope
@@ -440,7 +438,7 @@
 					</section>
 					<section>
 					   <p class="fragment fade-in">
-						<pre>env region patch</pre>
+						<pre>app-patch.yaml</pre>
 						<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|2|4|7-8|10-11">
 							apiVersion: helm.toolkit.fluxcd.io/v2beta1
 							kind: HelmRelease
@@ -510,17 +508,72 @@
 						</section>
 				 </section>
 
+				<section data-auto-animate> 
+					<h2>Image automation</h2>
+					<section>
+						<span class="fragment">
+							<pre><code class="hljs" data-trim data-line-numbers="">
+								❯ k get imagerepository my-app
+								NAME                          LAST SCAN              TAGS
+								my-app                        2021-07-14T18:42:53Z   20
+							</code></pre>
+						</span>
+				
+						<span class="fragment">
+							<pre><code class="hljs" data-trim data-line-numbers="">
+								❯ k get imagerepository my-app -oyaml
+								apiVersion: image.toolkit.fluxcd.io/v1beta1
+								kind: ImageRepository
+								metadata:
+									name: my-app
+									namespace: data
+								spec:
+									image: myacr.azurecr.io/my-app
+									interval: 5m0s
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<span>
+							<pre><code class="hljs" data-trim data-line-numbers="1-18">
+							❯ k get imageupdateautomation tenant -n tenant -oyaml
+							piVersion: image.toolkit.fluxcd.io/v1beta1
+							kind: ImageUpdateAutomation
+							metadata:
+								name: tenant
+								namespace: tenant
+							spec:
+								git:
+									checkout:
+									ref:
+										branch: master
+									commit:
+									author:
+										email: fluxcdbot@users.noreply.github.com
+										name: fluxcdbot
+									messageTemplate: |
+										An automated update from FluxBot
+										[ci skip]
+								interval: 5m
+								sourceRef:
+									kind: GitRepository
+									name: tenant
+							</code></pre>
+						</span>
+					</section>
+				 </section>
+
 				 <section>
 					<a target="_blank" href="https://fluxcd.io/">
 						<img src="https://raw.githubusercontent.com/cncf/artwork/d76a3a4b90804c1a66aa6725d03f9c88f706703b/projects/flux/horizontal/white/flux-horizontal-white.svg" alt="flux v2" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
 					</a>
 				</section>
 
-				<section data-background-image="assets/contributors.png">
+				<section data-autoanimate data-background-image="assets/contributors.png">
 					<h2 data-id="title">OSS Contributors</h2>
 				</section>
 
-				<section data-background-image="assets/contributors-me1.png" data-autoslide="1000">
+				<section data-autoanimate  data-background-image="assets/contributors-me1.png" data-autoslide="1000">
 					<h2 data-id="title"></h2>
 				</section>
 
@@ -529,7 +582,6 @@
 				</section>
 
 				<section id="grand-finale">
-					<h2>End</h2>
 					<p class="fragment fade-in">
 						<img src="assets/marchimedes_small.png"/>
 					</p>
@@ -542,8 +594,9 @@
 					</p>
 				</section>
 
-			</div>
+				<section><h2>The End</h2></section>
 
+			</div>
 		</div>
 
 		<script src="dist/reveal.js"></script>
