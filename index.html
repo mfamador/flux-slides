@@ -52,9 +52,8 @@
 					</p>
 				</section>
 
-
-				<section>
-					<section>
+				<section data-transition="convex">
+					<section data-transition="convex">
 						<h2>Flux v2</h2>
 						<p>Core Concepts</p>
 						<br>
@@ -81,8 +80,8 @@
 					</section>
 				</section>
 
-				<section>
-					<section>
+				<section data-transition="convex">
+					<section data-transition="convex">
 						<h2>Flux v2</h2>
 						<p>Core Components</p>
 						<br>
@@ -139,16 +138,16 @@
 						  gitImplementation: libgit2
 						  interval: 1m0s
 						  ref:
-							branch: master
+						    branch: master
 						  secretRef:
-							name: flux-system
+						    name: flux-system
 						  url: ssh://git@ssh.dev.azure.com/v3/anovateam/Mapleleaf/gitops-live
 					</code></pre>
 				</section>
 
 				<section data-auto-animate>
 					<h2 data-id="code-title">Main kustomization</h2>
-					<pre data-id="code2"><code class="hlyaml" data-trim data-line-numbers="|8|11-12">
+					<pre data-id="code2"><code class="hljs" data-trim data-line-numbers="|8|11-12">
 						apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 						kind: Kustomization
 						metadata:
@@ -164,52 +163,62 @@
 					</code></pre>
 				</section>
 
-				<!-- <section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down the <strong>alt</strong> key (<strong>ctrl</strong> in Linux) and click on any element to zoom towards it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Click again to zoom back out.
-					</p>
-					<p>
-						(NOTE: Use ctrl + click in Linux.)
-					</p>
-				</section> -->
+				<section data-auto-animate>
+					<h2 data-id="code-title">Flux resources</h2>
+					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+						kubectl get kustomization --all-namespaces
 
-				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-					<h2>Auto-Animate</h2>
-					<p>Automatically animate matching elements across slides with <a href="https://revealjs.com/auto-animate/">Auto-Animate</a>.</p>
-					<div class="r-hstack justify-center">
-						<div data-id="box1" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-						<div data-id="box2" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-						<div data-id="box3" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-					</div>
-				</section>
-				<section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-					<div class="r-hstack justify-center">
-						<div data-id="box1" data-auto-animate-delay="0" style="background: cyan; width: 150px; height: 100px; margin: 10px;"></div>
-						<div data-id="box2" data-auto-animate-delay="0.1" style="background: magenta; width: 150px; height: 100px; margin: 10px;"></div>
-						<div data-id="box3" data-auto-animate-delay="0.2" style="background: yellow; width: 150px; height: 100px; margin: 10px;"></div>
-					</div>
-					<h2 style="margin-top: 20px;">Auto-Animate</h2>
-				</section>
-				<section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-					<div class="r-stack">
-						<div data-id="box1" style="background: cyan; width: 300px; height: 300px; border-radius: 200px;"></div>
-						<div data-id="box2" style="background: magenta; width: 200px; height: 200px; border-radius: 200px;"></div>
-						<div data-id="box3" style="background: yellow; width: 100px; height: 100px; border-radius: 200px;"></div>
-					</div>
-					<h2 style="margin-top: 20px;">Auto-Animate</h2>
+						kubectl get gitrepositories --all-namespaces
+						
+						kubectl get helmrepository --all-namespaces	
+					</code></pre>
 				</section>
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section> -->
 
+				<section data-markdown>
+					<script type="text/template">
+						## Install Flux CLI
+
+						With Homebrew:
+						```
+						brew install fluxcd/tap/flux
+						```
+
+						With Bash:
+						```bash
+						curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+						```
+
+						Verify that your cluster satisfies the prerequisites with:
+
+						```
+						flux check --pre
+						```
+					</script>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">Flux CLI</h2>
+					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+						flux get kustomizations --all-namespaces
+
+						flux get sources git --all-namespaces
+
+						flux get sources helm --all-namespaces					
+					</code></pre>
+				</section>
+
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">Flux reconciliation</h2>
+					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+						flux reconcile kustomization core -n core
+
+						flux reconcile source git core -n core
+
+						flux reconcile helmrelease identity -n core					
+					</code></pre>
+				</section>
 
 				<!-- <section>
 					<p>Add the <code>r-fit-text</code> class to auto-size text</p>
@@ -292,15 +301,6 @@
 				</section>
 
 				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
 					<h2>Ownership</h2>
 					<table>
 						<thead>
@@ -314,28 +314,38 @@
 							<tr>
 								<td>gitops-live</td>
 								<td>Infra/Data</td>
-								<td>Platform / Foundation</td>
+								<td>Platform</td>
 							</tr>
 							<tr>
 								<td>gtiops-core</td>
 								<td>Core / SM</td>
-								<td>Core and Services and Maintenance</td>
+								<td>Core and <SMall></SMall></td>
 							</tr>
 							<tr>
 								<td>gitops-transform</td>
 								<td>Transform</td>
 								<td>Transform</td>
 							</tr>
+							<tr>
+								<td>gitops-data</td>
+								<td>Data</td>
+								<td>Data</td>
+							</tr>
 						</tbody>
 					</table>
 				</section>
 
 				<section data-auto-animate>
-					<h2 data-id="code-title">Platform / Foundation structure</h2>
-					<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|1|2-3|4|5|8|11|12-21">
+					<h2 data-id="code-title">Platform structure</h2>
+					<p>gitops-live</p>
+					<pre data-id="code1"><code data-trim data-line-numbers="|1|2-7|8|9-11|12-14|15|16|17-20|21-26">
 						├── clusters
 						│   ├── production
+						│   │   ├── eastus
+						│   │   └── northeurope
 						│   └── staging
+						│       ├── eastus
+						│       └── northeurope
 						├── operations
 						│   ├── manifests
 						│   │   ├── production
@@ -350,7 +360,8 @@
 							│   ├── data
 							│   └── transform
 							├── production
-							│   └── eastus
+							│   ├── eastus
+							│   └── northeurope
 							└── staging
 								├── eastus
 								└── northeurope
@@ -359,7 +370,8 @@
 
 
 				<section data-auto-animate>
-					<h2 data-id="code-title">Tenant structure</h2>
+					<h2 data-id="code-title">Tenants structure</h2>
+					<p>gitops-&lt;tenant&gt;</p>
 					<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|3|7|8-13|20|21-26|27-32">
 						├── _automation
 						├── _sources
@@ -396,60 +408,116 @@
 					</code></pre>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Install Flux CLI
+				<section data-auto-animate>
+					<h2 data-id="code-title">Helm release</h2>
 
-						With Homebrew:
-						```
-						brew install fluxcd/tap/flux
-						```
-
-						With Bash:
-						```bash
-						curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
-						```
-
-						Verify that your cluster satisfies the prerequisites with:
-
-						```
-						flux check --pre
-						```
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## See all `kustomizations`
-
-						```
-						kubectl get kustomization --all-namespaces
-						```
-						## See all `gitrepositories`
-
-						```
-						kubectl get gitrepositories --all-namespaces
-						```
-					</script>
-				</section>
-
-				<!-- <section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
+					<section>
+					<p class="fragment fade-in">
+						<pre>app-base.yaml</pre>
+						<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|2|4|8-13|19">
+							apiVersion: helm.toolkit.fluxcd.io/v2beta1
+							kind: HelmRelease
+							metadata:
+								name: my-app
+							spec:
+								releaseName: my-app
+								serviceAccountName: my-tenant
+								chart:
+									spec:
+									chart: anova-k8s-deployment
+									sourceRef:
+										kind: GitRepository
+										name: anova-helm-chart-stable
+								interval: 5m
+								install:
+									remediation:
+									retries: 3
+								values:
+									migrations:
+										enabled: true
+						</code></pre>
 					</p>
-				</section> -->
+					</section>
+					<section>
+					   <p class="fragment fade-in">
+						<pre>env region patch</pre>
+						<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|2|4|7-8|10-11">
+							apiVersion: helm.toolkit.fluxcd.io/v2beta1
+							kind: HelmRelease
+							metadata:
+							   name: my-app
+							spec:
+								values:
+									environment: staging
+									region: ue
+									image:
+										repository: acrmapleleafstag.azurecr.io/my-app
+										tag: 0.1.82 # {"$imagepolicy": "data:staging-ue-my-app:tag"}
+									- name: LOGLEVEL
+									  value: DEBUG
+						</code></pre>
+					  </p>
+					</section>
+					<section>
+						<p class="fragment fade-in">
+						 <pre>kustomization.yaml</pre>
+						 <pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|2|4|7-8|10-11">
+							apiVersion: kustomize.config.k8s.io/v1beta1
+							kind: Kustomization
+							namespace: data
+							resources:
+							- app-base.yaml
+							patchesStrategicMerge:
+							- app-patch.yaml
+							- app-patch-generated.yaml
+						 </code></pre>
+					   </p>
+					 </section>
 
-				<!-- <section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section> -->
+					 <section>
+						<p class="fragment fade-in">
+							<pre>kustomize build .</pre>
+							<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|18|19-20|21-27">
+								apiVersion: helm.toolkit.fluxcd.io/v2beta1
+								kind: HelmRelease
+								metadata:
+									name: my-app
+								spec:
+									releaseName: my-app
+									serviceAccountName: my-tenant
+									chart:
+										spec:
+										chart: anova-k8s-deployment
+										sourceRef:
+											kind: GitRepository
+											name: anova-helm-chart-stable
+									interval: 5m
+									install:
+										remediation:
+										retries: 3
+									values:
+										migrations:
+											enabled: true
+										environment: staging
+										region: ue
+										image:
+											repository: acrmapleleafstag.azurecr.io/my-app
+											tag: 0.1.82 # {"$imagepolicy": "data:staging-ue-my-app:tag"}
+										- name: LOGLEVEL
+										  value: DEBUG
+							</code></pre>
+						  </p>
+						</section>
+				 </section>
+
+				 <section>
+					<a target="_blank" href="https://fluxcd.io/">
+						<img src="https://raw.githubusercontent.com/cncf/artwork/d76a3a4b90804c1a66aa6725d03f9c88f706703b/projects/flux/horizontal/white/flux-horizontal-white.svg" alt="flux v2" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
+					</a>
+				</section>
 
 				<section data-background-image="assets/contributors.png">
-					<h2 data-id="title"></h2>
+					<h2 data-id="title">OSS Contributors</h2>
 				</section>
 
 				<section data-background-image="assets/contributors-me1.png" data-autoslide="1000">
@@ -460,7 +528,7 @@
 					<h2 data-id="title"></h2>
 				</section>
 
-				<section>
+				<section id="grand-finale">
 					<h2>End</h2>
 					<p class="fragment fade-in">
 						<img src="assets/marchimedes_small.png"/>
@@ -485,10 +553,12 @@
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
 		<script>
-
 			// Also available as an ES module, see:
 			// https://revealjs.com/initialization/
 			Reveal.initialize({
+  				// parallaxBackgroundImage: "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg",
+				// parallaxBackgroundSize: "2100px 900px",
+
 				controls: true,
 				progress: true,
 				center: true,
