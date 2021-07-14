@@ -114,7 +114,7 @@
 						<h2>Notification controller</h2>
 						<p></p>
 						<br>
-						<a href="#/2">
+						<a href="#/3">
 							<img class="r-frame" style="background: rgba(255,255,255,0.1); transform: rotate(180deg);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Up arrow">
 						</a>
 					</section>
@@ -210,23 +210,6 @@
 					</p>
 				</section> -->
 
-				<!-- <section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [docs](https://revealjs.com/markdown/).
-
-						```html []
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [docs](https://revealjs.com/markdown/).
-						</section>
-						```
-					</script>
-				</section> -->
 
 				<!-- <section>
 					<p>Add the <code>r-fit-text</code> class to auto-size text</p>
@@ -299,12 +282,12 @@
 				</section> -->
 
 				<section>
-					<h2>Marvelous List</h2>
+					<h2>GitOps Repos</h2>
 					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
+						<li>gitops-live</li>
+						<li>gitops-core</li>
+						<li>gitops-transform</li>
+						<li>gitops-data</li>
 					</ul>
 				</section>
 
@@ -318,33 +301,136 @@
 				</section>
 
 				<section>
-					<h2>Tabular Tables</h2>
+					<h2>Ownership</h2>
 					<table>
 						<thead>
 							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
+								<th>Repo</th>
+								<th>Team</th>
+								<th>Project</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
+								<td>gitops-live</td>
+								<td>Infra/Data</td>
+								<td>Platform / Foundation</td>
 							</tr>
 							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
+								<td>gtiops-core</td>
+								<td>Core / SM</td>
+								<td>Core and Services and Maintenance</td>
 							</tr>
 							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
+								<td>gitops-transform</td>
+								<td>Transform</td>
+								<td>Transform</td>
 							</tr>
 						</tbody>
 					</table>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">Platform / Foundation structure</h2>
+					<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|1|2-3|4|5|8|11|12-21">
+						├── clusters
+						│   ├── production
+						│   └── staging
+						├── operations
+						│   ├── manifests
+						│   │   ├── production
+						│   │   └── staging
+						│   └── releases
+						│       ├── production
+						│       └── staging
+						├── policies
+						└── tenants
+							├── base
+							│   ├── core
+							│   ├── data
+							│   └── transform
+							├── production
+							│   └── eastus
+							└── staging
+								├── eastus
+								└── northeurope
+					</code></pre>
+				</section>
+
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">Tenant structure</h2>
+					<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|3|7|8-13|20|21-26|27-32">
+						├── _automation
+						├── _sources
+						├── base
+						│   ├── kustomization.yaml
+						│   ├── my-release.yaml
+						│   └── my-other-release.yaml
+						├── production
+						│   ├── eastus
+						│   │   ├── kustomization.yam
+						│   │   ├── my-release-patch.yaml
+						│   │   ├── my-release-patch-generated.yaml
+						│   │   ├── my-other-release-patch.yaml
+						│   │   └── my-other-release-patch-generated.yaml
+						│   └── northeurope
+						│       ├── kustomization.yam
+						│       ├── my-release-patch.yaml
+						│       ├── my-release-patch-generated.yaml
+						│       ├── my-other-release-patch.yaml
+						│       └── my-other-release-patch-generated.yaml
+						└── staging
+							├── eastus
+							│   ├── kustomization.yam
+							│   ├── my-release-patch.yaml
+							│   ├── my-release-patch-generated.yaml
+							│   ├── my-other-release-patch.yaml
+							│   └── my-other-release-patch-generated.yaml
+							└── northeurope
+								├── kustomization.yam
+								├── my-release-patch.yaml
+								├── my-release-patch-generated.yaml
+								├── my-other-release-patch.yaml
+								└── my-other-release-patch-generated.yaml
+					</code></pre>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Install Flux CLI
+
+						With Homebrew:
+						```
+						brew install fluxcd/tap/flux
+						```
+
+						With Bash:
+						```bash
+						curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+						```
+
+						Verify that your cluster satisfies the prerequisites with:
+
+						```
+						flux check --pre
+						```
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## See all `kustomizations`
+
+						```
+						kubectl get kustomization --all-namespaces
+						```
+						## See all `gitrepositories`
+
+						```
+						kubectl get gitrepositories --all-namespaces
+						```
+					</script>
 				</section>
 
 				<!-- <section>
@@ -362,15 +448,15 @@
 					</p>
 				</section> -->
 
-				<section data-auto-animate data-background-image="assets/contributors.png">
-					<h2 data-id="title">Flux v2 contributors</h2>
-				</section>
-
-				<section data-auto-animate data-background-image="assets/contributors-me1.png">
+				<section data-background-image="assets/contributors.png">
 					<h2 data-id="title"></h2>
 				</section>
 
-				<section data-auto-animate data-background-image="assets/contributors-me.png">
+				<section data-background-image="assets/contributors-me1.png" data-autoslide="1000">
+					<h2 data-id="title"></h2>
+				</section>
+
+				<section data-background-image="assets/contributors-me.png">
 					<h2 data-id="title"></h2>
 				</section>
 
@@ -381,7 +467,7 @@
 					</p>
 					<p class="fragment">
 						<blockquote>
-							&ldquo;Give gitops and Kubernetes and I'll scale the world.&rdquo;
+							&ldquo;Give GitOps and Kubernetes and I'll scale the World.&rdquo;
 							<br>
 							<small><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MArchimedes</em></small>
 						</blockquote>
