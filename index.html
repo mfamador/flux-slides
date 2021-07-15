@@ -161,63 +161,62 @@
 					</code></pre>
 				</section>
 
-				<section data-auto-animate>
-					<h2 data-id="code-title">Flux resources</h2>
-					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
-						kubectl get kustomization --all-namespaces
 
-						kubectl get gitrepositories --all-namespaces
-						
-						kubectl get helmrepository --all-namespaces	
-					</code></pre>
+				<section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">Flux resources</h2>
+						<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+							kubectl get kustomization --all-namespaces
+
+							kubectl get gitrepositories --all-namespaces
+							
+							kubectl get helmrepository --all-namespaces	
+						</code></pre>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Install Flux CLI
+
+							With Homebrew:
+							```
+							brew install fluxcd/tap/flux
+							```
+
+							With Bash:
+							```bash
+							curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+							```
+
+							Verify that your cluster satisfies the prerequisites with:
+
+							```
+							flux check --pre
+							```
+						</script>
+					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">Flux CLI</h2>
+						<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+							flux get kustomizations --all-namespaces
+
+							flux get sources git --all-namespaces
+
+							flux get sources helm --all-namespaces					
+						</code></pre>
+					</section>
+
+
+					<section data-auto-animate>
+						<h2 data-id="code-title">Flux reconciliation</h2>
+						<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
+							flux reconcile kustomization core -n core
+
+							flux reconcile source git core -n core
+
+							flux reconcile helmrelease identity -n core					
+						</code></pre>
+					</section>
 				</section>
-
-
-				<section data-markdown>
-					<script type="text/template">
-						## Install Flux CLI
-
-						With Homebrew:
-						```
-						brew install fluxcd/tap/flux
-						```
-
-						With Bash:
-						```bash
-						curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
-						```
-
-						Verify that your cluster satisfies the prerequisites with:
-
-						```
-						flux check --pre
-						```
-					</script>
-				</section>
-
-				<section data-auto-animate>
-					<h2 data-id="code-title">Flux CLI</h2>
-					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
-						flux get kustomizations --all-namespaces
-
-						flux get sources git --all-namespaces
-
-						flux get sources helm --all-namespaces					
-					</code></pre>
-				</section>
-
-
-				<section data-auto-animate>
-					<h2 data-id="code-title">Flux reconciliation</h2>
-					<pre data-id="code"><code class="hljs" data-trim data-line-numbers="|1|3|5">
-						flux reconcile kustomization core -n core
-
-						flux reconcile source git core -n core
-
-						flux reconcile helmrelease identity -n core					
-					</code></pre>
-				</section>
-
 				<!-- <section>
 					<p>Add the <code>r-fit-text</code> class to auto-size text</p>
 					<h2 class="r-fit-text">FIT TEXT</h2>
@@ -334,8 +333,7 @@
 				</section>
 
 				<section data-auto-animate>
-					<h2 data-id="code-title">Platform structure</h2>
-					<p>gitops-live</p>
+					<h2 data-id="code-title">gitops-live</h2>
 					<pre data-id="code1"><code data-trim data-line-numbers="|1|2-7|8|9-11|12-14|15|16|17-20|21-26">
 						├── clusters
 						│   ├── production
@@ -368,7 +366,7 @@
 
 
 				<section>
-					<h2>Tenant git source / gitrepository</h2>
+					<h2>Tenant git source</h2>
 					<pre><code class="hljs" data-trim data-line-numbers="|11">
                         apiVersion: source.toolkit.fluxcd.io/v1beta1
                         kind: GitRepository
@@ -602,35 +600,33 @@
 					</section>
 					<section>
 						<span>
-							<pre><code class="hljs" data-trim data-line-numbers="1-9|11-17|24-28">
-								❯ git log
-								━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-								commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD) ┃
-								━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-								Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
-								Date:   Thu Jul 15 07:39:26 2021 +0000
-								
-									An automated update from FluxBot
-									[ci skip]
+							<pre><code class="hljs" data-trim data-line-numbers="1-7|9-15|23-26">
+							❯ git log
+							commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD)
+							Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
+							Date:   Thu Jul 15 07:39:26 2021 +0000
 
-								❯ git whatchanged -m -n 1 -p bcb890b12f623a901295fad68a92f899d7a1279d
-								commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD)
-								Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
-								Date:   Thu Jul 15 07:39:26 2021 +0000
-								
-									An automated update from FluxBot
-									[ci skip]
-								
-								diff --git a/production/eastus/entities-digestor-patch.yaml b/production/eastus/entities-digestor-patch.yaml
-								index f36aefd..63dc20e 100644
-								--- a/production/eastus/entities-digestor-patch.yaml
-								+++ b/production/eastus/entities-digestor-patch.yaml
-								@@ -8,7 +8,7 @@ spec:
-									 region: ue
-									 image:
-									   repository: acrmapleleafprod.azurecr.io/entities-digestor
-								-      tag: 0.1.18 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
-								+      tag: 0.1.19 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
+								An automated update from FluxBot
+								[ci skip]  
+
+							❯ git whatchanged -m -n 1 -p bcb890b12f623a901295fad68a92f899d7a1279d
+							commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD)
+							Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
+							Date:   Thu Jul 15 07:39:26 2021 +0000
+
+								An automated update from FluxBot
+								[ci skip]
+
+							diff --git a/production/eastus/entities-digestor-patch.yaml b/production/eastus/entities-digestor-patch.yaml
+							index f36aefd..63dc20e 100644
+							--- a/production/eastus/entities-digestor-patch.yaml
+							+++ b/production/eastus/entities-digestor-patch.yaml
+							@@ -8,7 +8,7 @@ spec:
+								region: ue
+								image:
+								repository: acrmapleleafprod.azurecr.io/entities-digestor
+							-      tag: 0.1.18 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
+							+      tag: 0.1.19 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
 							</code></pre>
 						</span>
 					</section>
