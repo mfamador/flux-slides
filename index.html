@@ -310,13 +310,13 @@
 						<tbody>
 							<tr>
 								<td>gitops-live</td>
-								<td>Infra/Data</td>
+								<td>Infra</td>
 								<td>Platform</td>
 							</tr>
 							<tr>
 								<td>gtiops-core</td>
 								<td>Core / SM</td>
-								<td>Core and <SMall></SMall></td>
+								<td>Core and SM<SMall></SMall></td>
 							</tr>
 							<tr>
 								<td>gitops-transform</td>
@@ -334,10 +334,46 @@
 
 				<section data-auto-animate>
 					<h2 data-id="code-title">gitops-live</h2>
-					<pre data-id="code1"><code data-trim data-line-numbers="|1|2-7|8|9-11|12-14|15|16|17-20|21-26">
+					<pre data-id="code1"><code data-trim data-line-numbers="|1">
 						├── clusters
 						│   ├── production
 						│   │   ├── eastus
+						│   │   └── norteurope
+						│   └── staging
+						│       ├── eastus
+						│       └── northeurope
+						├── operations
+						│   ├── manifests
+						│   │   ├── production
+						│   │   └── staging
+						│   └── releases
+						│       ├── production
+						│       └── staging
+						├── policies
+						└── tenants
+							├── base
+							│   ├── core
+							│   ├── data
+							│   └── transform
+							├── production
+							│   ├── eastus
+							│   └── northeurope
+							└── staging
+								├── eastus
+								└── northeurope
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">gitops-live</h2>
+					<pre data-id="code1"><code data-trim data-line-numbers="2-7|2-7|12|13-15|16-18|19|20|21-24|25-30">
+						├── clusters
+						│   ├── production
+						│   │   ├── eastus
+						│   │   │   ├── flux-system
+						│   │   │   ├── operations.yaml
+						│   │   │   ├── policies.yaml
+						│   │   │   └── tenants.yaml
 						│   │   └── norteurope
 						│   └── staging
 						│       ├── eastus
