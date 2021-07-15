@@ -367,9 +367,46 @@
 				</section>
 
 
+				<section>
+					<h2>Tenant git source / gitrepository</h2>
+					<pre><code class="hljs" data-trim data-line-numbers="|11">
+                        apiVersion: source.toolkit.fluxcd.io/v1beta1
+                        kind: GitRepository
+                        metadata:
+                          name: core
+                          namespace: core
+                        spec:
+                          gitImplementation: libgit2
+                          interval: 5m0s
+                          ref:
+                            branch: master
+                          url: ssh://git@ssh.dev.azure.com/v3/anovateam/Mapleleaf/gitops-core
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Tenant kustomization</h2>
+					<pre><code class="hljs" data-trim data-line-numbers="|9|12-14">
+						apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+						kind: Kustomization
+						metadata:
+						  name: core
+						  namespace: core
+						spec:
+						  force: false
+						  interval: 5m0s
+						  path: ./staging/eastus
+						  prune: true
+						  serviceAccountName: core
+						  sourceRef:
+						    kind: GitRepository
+						    name: core
+					</code></pre>
+				</section>
+
+
 				<section data-auto-animate>
-					<h2 data-id="code-title">Tenants structure</h2>
-					<p>gitops-&lt;tenant&gt;</p>
+					<h2 data-id="code-title">gitops-&lt;tenant&gt;</h2>
 					<pre data-id="code1"><code class="hljs" data-trim data-line-numbers="|3|7|8-13|20|21-26|27-32">
 						├── _automation
 						├── _sources
@@ -379,26 +416,26 @@
 						│   └── my-other-release.yaml
 						├── production
 						│   ├── eastus
-						│   │   ├── kustomization.yam
+						│   │   ├── kustomization.yaml
 						│   │   ├── my-release-patch.yaml
 						│   │   ├── my-release-patch-generated.yaml
 						│   │   ├── my-other-release-patch.yaml
 						│   │   └── my-other-release-patch-generated.yaml
 						│   └── northeurope
-						│       ├── kustomization.yam
+						│       ├── kustomization.yaml
 						│       ├── my-release-patch.yaml
 						│       ├── my-release-patch-generated.yaml
 						│       ├── my-other-release-patch.yaml
 						│       └── my-other-release-patch-generated.yaml
 						└── staging
 							├── eastus
-							│   ├── kustomization.yam
+							│   ├── kustomization.yaml
 							│   ├── my-release-patch.yaml
 							│   ├── my-release-patch-generated.yaml
 							│   ├── my-other-release-patch.yaml
 							│   └── my-other-release-patch-generated.yaml
 							└── northeurope
-								├── kustomization.yam
+								├── kustomization.yaml
 								├── my-release-patch.yaml
 								├── my-release-patch-generated.yaml
 								├── my-other-release-patch.yaml
@@ -451,6 +488,7 @@
 									image:
 										repository: acrmapleleafstag.azurecr.io/my-app
 										tag: 0.1.82 # {"$imagepolicy": "data:staging-ue-my-app:tag"}
+									env:
 									- name: LOGLEVEL
 									  value: DEBUG
 						</code></pre>
@@ -501,6 +539,7 @@
 										image:
 											repository: acrmapleleafstag.azurecr.io/my-app
 											tag: 0.1.82 # {"$imagepolicy": "data:staging-ue-my-app:tag"}
+										env:
 										- name: LOGLEVEL
 										  value: DEBUG
 							</code></pre>
@@ -535,7 +574,7 @@
 					</section>
 					<section>
 						<span>
-							<pre><code class="hljs" data-trim data-line-numbers="1-18">
+							<pre><code class="hljs" data-trim data-line-numbers="1-18|20-22">
 							❯ k get imageupdateautomation tenant -n tenant -oyaml
 							piVersion: image.toolkit.fluxcd.io/v1beta1
 							kind: ImageUpdateAutomation
@@ -558,6 +597,40 @@
 								sourceRef:
 									kind: GitRepository
 									name: tenant
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<span>
+							<pre><code class="hljs" data-trim data-line-numbers="1-9|11-17|24-28">
+								❯ git log
+								━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+								commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD) ┃
+								━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+								Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
+								Date:   Thu Jul 15 07:39:26 2021 +0000
+								
+									An automated update from FluxBot
+									[ci skip]
+
+								❯ git whatchanged -m -n 1 -p bcb890b12f623a901295fad68a92f899d7a1279d
+								commit bcb890b12f623a901295fad68a92f899d7a1279d (HEAD -> master, origin/master, origin/HEAD)
+								Author: fluxcdbot <fluxcdbot@users.noreply.github.com>
+								Date:   Thu Jul 15 07:39:26 2021 +0000
+								
+									An automated update from FluxBot
+									[ci skip]
+								
+								diff --git a/production/eastus/entities-digestor-patch.yaml b/production/eastus/entities-digestor-patch.yaml
+								index f36aefd..63dc20e 100644
+								--- a/production/eastus/entities-digestor-patch.yaml
+								+++ b/production/eastus/entities-digestor-patch.yaml
+								@@ -8,7 +8,7 @@ spec:
+									 region: ue
+									 image:
+									   repository: acrmapleleafprod.azurecr.io/entities-digestor
+								-      tag: 0.1.18 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
+								+      tag: 0.1.19 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
 							</code></pre>
 						</span>
 					</section>
