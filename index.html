@@ -89,27 +89,23 @@
 					</section>
 					<section>
 						<h2>Source controller</h2>
-						<p></p>
+						<p>The main role of the source management component is to provide a common interface for artifacts acquisition. The source API defines a set of Kubernetes objects that cluster admins and various automated operators can interact with to offload the Git and Helm repositories operations to a dedicated controller.</p>
 					</section>
 					<section>
 						<h2>Kustomize controller</h2>
-						<p></p>
+						<p>The kustomize-controller is a Kubernetes operator, specialized in running continuous delivery pipelines for infrastructure and workloads defined with Kubernetes manifests and assembled with Kustomize.</p>
 					</section>
 					<section>
 						<h2>Helm controller</h2>
-						<p></p>
+						<p>The Helm Controller is a Kubernetes operator, allowing one to declaratively manage Helm chart releases with Kubernetes manifests.</p>
 					</section>
 					<section>
-						<h2>Image Reflector controller</h2>
-						<p></p>
-					</section>
-					<section>
-						<h2>Image Automation controller</h2>
-						<p></p>
+						<h2>Image Reflector and Image Automation controllers</h2>
+						<p>The image-reflector-controller and image-automation-controller work together to update a Git repository when new container images are available.</p>
 					</section>
 					<section>
 						<h2>Notification controller</h2>
-						<p></p>
+						<p>The Notification Controller is a Kubernetes operator, specialized in handling inbound and outbound events.</p>
 						<br>
 						<a href="#/3">
 							<img class="r-frame" style="background: rgba(255,255,255,0.1); transform: rotate(180deg);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Up arrow">
