@@ -577,12 +577,42 @@
 						</section>
 				 </section>
 
+
+				<section data-auto-animate> 
+					<section>
+						<h2>Image Automation</h2>
+						<p></p>
+						<br>
+						<a href="#/15/2">
+							<img class="r-frame" style="background: rgba(255,255,255,0.1); " width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section>
+						<h2>Image policy</h2>
+						<p>The ImagePolicy type gives rules for selecting a “latest” image from a scanned ImageRepository. This can be used to drive automation, as with the image-automation-controller; or more generally, to inform other processes of the state of an image repository.
+						</p>
+					</section>
+					<section>
+						<h2>Image repository</h2>
+						<p>The ImageRepository API specifies how to scan OCI image repositories. A repository is a collection of images – e.g., alpine, as opposed to a specific image, e.g., alpine:3.1. ImagePolicy objects can then refer to an ImageRepository in order to select a specific image from those scanned.
+						</p>
+					</section>
+					<section>
+						<h2>Image update automation</h2>
+						<p>The ImageUpdateAutomation type defines an automation process that will update a git repository, based on image policiy objects in the same namespace.</p>
+						<br>
+						<a href="#/15">
+							<img class="r-frame" style="background: rgba(255,255,255,0.1); transform: rotate(180deg);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Up arrow">
+						</a>
+					</section>
+				</section>
+
 				<section data-auto-animate> 
 					<h2>Image automation</h2>
 					<section>
 						<span class="fragment">
 							<pre><code class="hljs" data-trim data-line-numbers="">
-								❯ k get imagerepository my-app
+								❯ kubectl get imagerepository my-app
 								NAME                          LAST SCAN              TAGS
 								my-app                        2021-07-14T18:42:53Z   20
 							</code></pre>
@@ -590,7 +620,7 @@
 				
 						<span class="fragment">
 							<pre><code class="hljs" data-trim data-line-numbers="">
-								❯ k get imagerepository my-app -oyaml
+								❯ kubectl get imagerepository my-app -oyaml
 								apiVersion: image.toolkit.fluxcd.io/v1beta1
 								kind: ImageRepository
 								metadata:
@@ -659,6 +689,58 @@
 								repository: acrmapleleafprod.azurecr.io/entities-digestor
 							-      tag: 0.1.18 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
 							+      tag: 0.1.19 # {"$imagepolicy": "data:production-ue-entities-digestor:tag"}
+							</code></pre>
+						</span>
+					</section>
+				 </section>
+
+				 <section data-auto-animate> 
+					<section>
+						<h2>Image automation</h2>
+						<span class="fragment">
+							<pre><code class="hljs" data-trim data-line-numbers="">
+								❯ flux get image repository -n core apistatus
+								NAME     	READY	MESSAGE                      	LAST SCAN                	SUSPENDED
+								apistatus	True 	successful scan, found 1 tags	2021-07-26T12:51:27+01:00	False
+							</code></pre>
+						</span>
+						<span class="fragment">
+							<pre><code class="hljs" data-trim data-line-numbers="">
+								❯ flux get image policy -n core staging-ue-apistatus
+								NAME                	READY	MESSAGE                                                                         	LATEST IMAGE
+								staging-ue-apistatus	True 	Latest image tag for 'acrmapleleafstag.azurecr.io/apistatus' resolved to: 1.0.27	acrmapleleafstag.azurecr.io/apistatus:1.0.27
+							</code></pre>
+						</span>
+						<span class="fragment">
+							<pre><code class="hljs" data-trim data-line-numbers="">
+								❯ flux get image update -n core
+								NAME	READY	MESSAGE                                                     	LAST RUN                 	SUSPENDED
+								core	True 	no updates made; last commit 69ac834 at 2021-07-26T11:07:39Z	2021-07-26T12:53:32+01:00	False
+							</code></pre>
+						</span>
+					</section>
+					
+					<section>
+						<h2>Image rollback</h2>
+						<span class="fragment">
+							<p>Base</p>
+							<pre><code class="hljs" data-trim data-line-numbers="">
+							image:
+							  automation:
+							    enabled: true
+							    semver:
+							      expr: x.x.x 
+							</code></pre>
+						</span>
+						<span class="fragment">
+							<p>Patch in environment</p>
+							<pre><code class="hljs" data-trim data-line-numbers="">
+							image:
+							  repository: acrmapleleafstag.azurecr.io/assetsreports
+							  tag: 0.1.8 # {"$imagepolicy": "core:staging-ue-assetsreportsapi:tag"}
+							  automation:
+							    semver:
+								    expr: 0.1.8 # temporarily fixing this tag
 							</code></pre>
 						</span>
 					</section>
